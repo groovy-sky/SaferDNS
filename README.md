@@ -1,1 +1,1 @@
-# safedns
+# SaferDNS
