@@ -2,7 +2,7 @@ FROM golang:alpine3.16 as base
 
 RUN apk update && apk add --no-cache gcc bash musl-dev openssl-dev ca-certificates coreutils make && update-ca-certificates
 
-FROM base
+FROM base as build
 
 WORKDIR /tmp
 ARG VERSION="v1.9.4"
@@ -15,5 +15,14 @@ RUN echo "$CHECKSUM $ARCHIVE" | sha256sum -c  && \
     tar -xf $ARCHIVE && \
     rm $ARCHIVE && \
     cd core* && \
-    printf "forward:forward\nreload:reload\ncache:cache" > plugin.cfg && \
+    printf "errors:errors\ncache:cache\nforward:forward\n" > plugin.cfg && \
     make
+
+FROM scratch
+
+COPY --from=base /etc/ssl/certs/ca-certificates.crt /
+COPY --from=build /tmp/core*/coredns /
+
+EXPOSE 53/UDP
+
+CMD ["/coredns"]
