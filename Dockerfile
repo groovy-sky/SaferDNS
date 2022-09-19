@@ -20,8 +20,9 @@ RUN echo "$CHECKSUM $ARCHIVE" | sha256sum -c  && \
 
 FROM scratch
 
-COPY --from=base /etc/ssl/certs/ca-certificates.crt /
+COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /tmp/core*/coredns /
+ADD Corefile /
 
 EXPOSE 53/UDP
 
