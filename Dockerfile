@@ -8,6 +8,8 @@ WORKDIR /tmp
 ARG VERSION="v1.9.4"
 ARG CHECKSUM="3356e1f795dddf067d69aff08cd3142763e8ead040c65d93994b6de3156f15a4"
 ARG ARCHIVE="coredns.tar.gz"
+ARG CGO_ENABLED=0
+ARG SYSTEM=
 
 ADD https://github.com/coredns/coredns/archive/$VERSION.tar.gz $ARCHIVE
 
@@ -16,7 +18,7 @@ RUN echo "$CHECKSUM $ARCHIVE" | sha256sum -c  && \
     rm $ARCHIVE && \
     cd core* && \
     printf "errors:errors\ncache:cache\nhosts:hosts\nforward:forward\n" > plugin.cfg && \
-    make
+    GOOS=linux GOARCH=${SYSTEM} go build -o ../coredns
 
 RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
     cat hosts/* > hosts.blacklist
@@ -24,7 +26,7 @@ RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blac
 FROM scratch
 
 COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=build /tmp/core*/coredns /
+COPY --from=build /tmp/coredns /
 COPY --from=build /tmp/hosts.blacklist /
 ADD Corefile /
 
