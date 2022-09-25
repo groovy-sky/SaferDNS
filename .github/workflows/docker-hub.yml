@@ -1,0 +1,31 @@
+name: Build and Push to Docker Hub
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+
+env:
+  REGISTRY_NAME: docker.io
+  REGISTRY_IMAGE: saferdns
+  REGISTRY_USER: gr00vysky
+  IMAGE_VERSION: latest
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: linux
+        arch: [386,amd64,arm,arm64,ppc64,ppc64le,mips,mipsle,mips64,mips64le]
+        
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Log in to registry
+      run: echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
+  
+    - name: Build and push image
+      run: docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t $REGISTRY_NAME/$REGISTRY_IMAGE:$VERSION .
