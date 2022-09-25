@@ -29,5 +29,5 @@ jobs:
     - name: Build and push image
       run: |
           docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}" . 
-          docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
           docker manifest create "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION" --amend "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
+          docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
