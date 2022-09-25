@@ -7,7 +7,6 @@ env:
   REGISTRY_NAME: docker.io
   REGISTRY_IMAGE: saferdns
   REGISTRY_USER: gr00vysky
-  IMAGE_VERSION: latest
 
 jobs:
   build-and-push-image:
@@ -27,4 +26,4 @@ jobs:
       run: echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
   
     - name: Build and push image
-      run: docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t $REGISTRY_NAME/$REGISTRY_IMAGE:$VERSION .
+      run: docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t "$REGISTRY_NAME/$REGISTRY_IMAGE:${{ matrix.arch }}" . 
