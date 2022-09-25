@@ -1,8 +1,7 @@
 name: Build and Push to Docker Hub
 
 on:
-  schedule:
-    - cron: '0 0 1 * *'
+  push
 
 env:
   REGISTRY_NAME: docker.io
@@ -24,7 +23,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Log in to registry
+    - name: Login to registry
       run: echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
   
     - name: Build and push image
