@@ -16,7 +16,7 @@ RUN echo "$CHECKSUM $ARCHIVE" | sha256sum -c  && \
     rm $ARCHIVE && \
     cd core* && \
     printf "errors:errors\ncache:cache\nhosts:hosts\nforward:forward\n" > plugin.cfg && \
-    go mod download &&
+    go mod download
 
 ARG CGO_ENABLED=0
 ARG OS=
