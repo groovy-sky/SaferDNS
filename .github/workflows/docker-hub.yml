@@ -9,8 +9,7 @@ env:
   REGISTRY_USER: gr00vysky
   CORE_VERSION: v1.9.4
   CORE_CHECKSUM: 3356e1f795dddf067d69aff08cd3142763e8ead040c65d93994b6de3156f15a4
-  IMAGE_OS: linux
-  IMAGE_ARCHS: linux/386,linux/amd64
+  IMAGE_ARCHS: linux/386,linux/amd64,linux/arm,linux/arm64,linux/ppc64,linux/ppc64le,linux/mips,linux/mipsle,linux/mips64,linux/mips64le
 
 jobs:
   build-and-push-image:
@@ -23,7 +22,7 @@ jobs:
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
-      
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -38,4 +37,5 @@ jobs:
           --build-arg "VERSION=$CORE_VERSION" \
           --build-arg "CHECKSUM=$CORE_CHECKSUM" \
           --platform "$IMAGE_ARCHS" \
+          --tag "$REGISTRY_USER/$REGISTRY_IMAGE:latest" \
           --tag "$REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION" .
