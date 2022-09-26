@@ -39,5 +39,6 @@ jobs:
             out="$out --amend $i"
           done
           out="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION $out"
+          echo $out
           $out
           docker manifest push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
