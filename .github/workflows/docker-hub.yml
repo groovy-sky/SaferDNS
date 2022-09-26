@@ -38,6 +38,7 @@ jobs:
           do
             out="$out --amend $i"
           done
+          docker image ls
           out="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION $out"
           echo $out
           $out
