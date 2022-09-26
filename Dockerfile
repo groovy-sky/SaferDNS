@@ -1,25 +1,23 @@
-FROM golang:alpine3.16 as build
+ARG GO_VERSION=latest
+FROM golang:${GO_VERSION} as base
 
 RUN apk update && apk add --no-cache gcc bash musl-dev openssl-dev ca-certificates coreutils make && update-ca-certificates && apk add subversion
+
+FROM base as build
 
 WORKDIR /tmp
 
 ARG ARCHIVE="coredns.tar.gz"
-ARG VERSION=
-ARG CHECKSUM=
+ARG CORE_VERSION=
+ARG CORE_CHECKSUM=
 
-ADD https://github.com/coredns/coredns/archive/${VERSION}.tar.gz $ARCHIVE
+ADD https://github.com/coredns/coredns/archive/${CORE_VERSION}.tar.gz $ARCHIVE
 
-RUN echo "${CHECKSUM} $ARCHIVE" | sha256sum -c  && \
+RUN echo "${CORE_CHECKSUM} $ARCHIVE" | sha256sum -c  && \
     tar -xf $ARCHIVE && \
     rm $ARCHIVE && \
     cd core* && \
     printf "errors:errors\ncache:cache\nhosts:hosts\nforward:forward\n" > plugin.cfg && \
-    go mod download
-
-ARG CGO_ENABLED=0
-
-RUN cd core* && \
     go build -o ../coredns
 
 RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
@@ -27,7 +25,7 @@ RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blac
 
 FROM scratch
 
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /tmp/coredns /
 COPY --from=build /tmp/hosts.blacklist /
 ADD Corefile /
