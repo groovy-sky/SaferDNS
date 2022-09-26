@@ -9,7 +9,7 @@ env:
   REGISTRY_USER: gr00vysky
   CORE_VERSION: v1.9.4
   CORE_CHECKSUM: 3356e1f795dddf067d69aff08cd3142763e8ead040c65d93994b6de3156f15a4
-  IMAGE_ARCHS: linux/amd64,linux/arm/v7,linux/arm64/v8,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
+  IMAGE_ARCHS: linux/amd64,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
 
 jobs:
   build-and-push-image:
