@@ -27,12 +27,12 @@ jobs:
     - name: Build and push image
       run: |
           IFS=',' read -ra archs <<< "$IMAGE_ARCHS"
-          for arch in "$archs"; do
+          for arch in "${archs[@]}"; do
             docker build --platform "$IMAGE_OS/$arch" --build-arg "OS=$IMAGE_OS" --build-arg "ARCH=$arch" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-$arch" . 
             docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-$arch"
           done
           docker images
-          for i in $(docker images "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION" --format "{{.Repository}}:{{.Tag}}")
+          for i in $(docker images "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-*" --format "{{.Repository}}:{{.Tag}}")
           do
             echo $i
             out="$out --amend $i"
