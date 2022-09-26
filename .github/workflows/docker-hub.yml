@@ -24,14 +24,18 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Login to registry
-      run: echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
+      run: |
+          echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
+          $manifest_cmd="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
   
     - name: Build image and manifest
       run: |
           docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}" . 
-          docker manifest create "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION" --amend "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
-          docker manifest annotate "$REGISTRY_USER/$REGISTRY_IMAGE" "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}" --os "${{ matrix.os }}" --arch "${{ matrix.arch }}"
+          docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
+          $manifest_cmd="$manifest_cmd --amend $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
+
 
     - name: Push image
       run: |
+          bash -c $manifest_cmd
           docker manifest push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
