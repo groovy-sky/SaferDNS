@@ -26,7 +26,7 @@ jobs:
     - name: Login to registry
       run: |
           echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
-          $manifest_cmd="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
+          manifest_cmd="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
   
     - name: Build image and manifest
       run: |
