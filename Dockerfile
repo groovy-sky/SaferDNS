@@ -18,11 +18,9 @@ RUN echo "${CHECKSUM} $ARCHIVE" | sha256sum -c  && \
     go mod download
 
 ARG CGO_ENABLED=0
-ARG OS=
-ARG ARCH=
 
 RUN cd core* && \
-    GOOS=${OS} GOARCH=${ARCH} go build -o ../coredns
+    go build -o ../coredns
 
 RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
     cat hosts/* > hosts.blacklist
