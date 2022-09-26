@@ -5,6 +5,8 @@ RUN apk update && apk add --no-cache gcc bash musl-dev openssl-dev ca-certificat
 WORKDIR /tmp
 
 ARG ARCHIVE="coredns.tar.gz"
+ARG VERSION=
+ARG CHECKSUM=
 
 ADD https://github.com/coredns/coredns/archive/${VERSION}.tar.gz $ARCHIVE
 
