@@ -9,7 +9,7 @@ env:
   REGISTRY_USER: gr00vysky
   IMAGE_VERSION: latest
   IMAGE_OS: linux
-  IMAGE_ARCHS: [386,amd64]
+  IMAGE_ARCHS: 386,amd64
 
 jobs:
   build-and-push-image:
