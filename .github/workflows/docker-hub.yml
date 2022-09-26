@@ -7,7 +7,8 @@ env:
   REGISTRY_NAME: docker.io
   REGISTRY_IMAGE: saferdns
   REGISTRY_USER: gr00vysky
-  IMAGE_VERSION: latest
+  CORE_VERSION: v1.9.4
+  CORE_CHECKSUM: 3356e1f795dddf067d69aff08cd3142763e8ead040c65d93994b6de3156f15a4
   IMAGE_OS: linux
   IMAGE_ARCHS: 386,amd64
 
@@ -28,16 +29,16 @@ jobs:
       run: |
           IFS=',' read -ra archs <<< "$IMAGE_ARCHS"
           for arch in "${archs[@]}"; do
-            docker build --platform "$IMAGE_OS/$arch" --build-arg "OS=$IMAGE_OS" --build-arg "ARCH=$arch" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-$arch" . 
-            docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-$arch"
+            docker build --platform "$IMAGE_OS/$arch" --build-arg "VERSION=$CORE_VERSION" --build-arg "CHECKSUM=$CORE_CHECKSUM" --build-arg "OS=$IMAGE_OS" --build-arg "ARCH=$arch" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION-$arch" . 
+            docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION-$arch"
           done
           docker images
-          for i in $(docker images "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-*" --format "{{.Repository}}:{{.Tag}}")
+          for i in $(docker images "$REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION-*" --format "{{.Repository}}:{{.Tag}}")
           do
             echo $i
             out="$out --amend $i"
           done
-          out="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION $out"
+          out="docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION $out"
           echo $out
           $out
-          docker manifest push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION"
+          docker manifest push "$REGISTRY_USER/$REGISTRY_IMAGE:$CORE_VERSION"

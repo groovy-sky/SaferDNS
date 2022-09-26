@@ -1,17 +1,14 @@
-FROM golang:alpine3.16 as base
+FROM golang:alpine3.16 as build
 
 RUN apk update && apk add --no-cache gcc bash musl-dev openssl-dev ca-certificates coreutils make && update-ca-certificates && apk add subversion
 
-FROM base as build
-
 WORKDIR /tmp
-ARG VERSION="v1.9.4"
-ARG CHECKSUM="3356e1f795dddf067d69aff08cd3142763e8ead040c65d93994b6de3156f15a4"
+
 ARG ARCHIVE="coredns.tar.gz"
 
-ADD https://github.com/coredns/coredns/archive/$VERSION.tar.gz $ARCHIVE
+ADD https://github.com/coredns/coredns/archive/${VERSION}.tar.gz $ARCHIVE
 
-RUN echo "$CHECKSUM $ARCHIVE" | sha256sum -c  && \
+RUN echo "${CHECKSUM} $ARCHIVE" | sha256sum -c  && \
     tar -xf $ARCHIVE && \
     rm $ARCHIVE && \
     cd core* && \
@@ -30,7 +27,7 @@ RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blac
 
 FROM scratch
 
-COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /tmp/coredns /
 COPY --from=build /tmp/hosts.blacklist /
 ADD Corefile /
