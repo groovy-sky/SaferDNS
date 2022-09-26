@@ -26,14 +26,12 @@ jobs:
     - name: Login to registry
       run: |
           echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
-          echo "manifest_cmd=docker manifest create $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION" >> $GITHUB_ENV
   
     - name: Build image and manifest
       run: |
           docker build --build-arg "OS=${{ matrix.os }}" --build-arg "ARCH=${{ matrix.arch }}" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}" . 
           docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
-          "${{ env.manifest_cmd }} --amend $REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
-
+          docker manifest create "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION" --amend "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
 
     - name: Push image
       run: |
