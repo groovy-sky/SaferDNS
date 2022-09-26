@@ -26,8 +26,9 @@ jobs:
   
     - name: Build and push image
       run: |
-          for arch in $IMAGE_ARCHS
-          do
+          IFS=','
+          read -ra $IMAGE_ARCHS <<< "$str"
+          for arch in "${IMAGE_ARCHS[@]}"; do
             docker build --platform "$IMAGE_OS/$arch" --build-arg "OS=$IMAGE_OS" --build-arg "ARCH=$arch" -t "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-$arch" . 
             docker push "$REGISTRY_USER/$REGISTRY_IMAGE:$IMAGE_VERSION-${{ matrix.arch }}"
           done
