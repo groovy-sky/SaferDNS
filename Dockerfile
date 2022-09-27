@@ -11,7 +11,7 @@ ARG ARCHIVE="coredns.tar.gz"
 ARG CORE_VERSION=
 ARG CORE_CHECKSUM=
 
-ADD https://github.com/coredns/coredns/archive/${CORE_VERSION}.tar.gz $ARCHIVE
+ADD https://github.com/coredns/coredns/archive/$CORE_VERSION.tar.gz $ARCHIVE
 
 RUN echo "$CORE_CHECKSUM $ARCHIVE" | sha256sum -c  && \
     tar -xf $ARCHIVE && \
