@@ -32,6 +32,7 @@ COPY --from=build /tmp/coredns /
 COPY --from=build /tmp/hosts.blacklist /
 ADD Corefile /
 
+EXPOSE 53/TCP
 EXPOSE 53/UDP
 
 CMD ["/coredns"]
