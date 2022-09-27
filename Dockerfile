@@ -19,7 +19,7 @@ RUN echo "${CORE_CHECKSUM} $ARCHIVE" | sha256sum -c  && \
     rm $ARCHIVE && \
     cd core* && \
     printf "errors:errors\ncache:cache\nhosts:hosts\nforward:forward\n" > plugin.cfg && \
-    go mod tidy && \
+    go mod tidy -compat=1.17 && \
     go build -o ../coredns
 
 RUN svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
