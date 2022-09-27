@@ -10,6 +10,7 @@ WORKDIR /tmp
 ARG ARCHIVE="coredns.tar.gz"
 ARG CORE_VERSION=
 ARG CORE_CHECKSUM=
+ARG CGO_ENABLED=0
 
 ADD https://github.com/coredns/coredns/archive/${CORE_VERSION}.tar.gz $ARCHIVE
 
