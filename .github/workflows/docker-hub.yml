@@ -32,6 +32,7 @@ jobs:
           echo "${{ secrets.REGISTRY_PASS }}" | docker login $REGISTRY_NAME -u $REGISTRY_USER --password-stdin
   
     - name: Build and push image
+      uses: actions/cache@v3
       run: |
           docker buildx build \
           --push \
