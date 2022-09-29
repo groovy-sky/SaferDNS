@@ -7,4 +7,9 @@
 
 ## 1. <a name="intro"></a> Introduction <small><sup>[Top ▲](#table-of-contents)</sup></small>
 
-* https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist
+SaferDNS is a Blackhole DNS. It runs on [CoreDNS](https://github.com/coredns/coredns) and uses [The Ultimate Unified Hosts file](https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist) for blacklisting suspicious domains.
+
+Currently, SaferDNS is provided as [the Docker image](https://hub.docker.com/r/gr00vysky/saferdns):
+
+![](/img/docker_registry.png)
+
