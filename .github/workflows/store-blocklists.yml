@@ -7,7 +7,7 @@ env:
   TMP_DIR: temp
 
 jobs:
-  build-and-push-image:
+  store-blocklists:
     runs-on: ubuntu-latest
         
     steps:
@@ -27,4 +27,8 @@ jobs:
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
           cat hosts/* > Ultimate.Hosts.Blacklist.txt && \
           pwd
+  
+    - name: Cleanup
+      run: |
+          rm -rf "$TMP_DIR"
   
