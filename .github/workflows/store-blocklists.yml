@@ -25,6 +25,6 @@ jobs:
       run: |
           cd "$TMP_DIR" && \
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
-          cat hosts/* > Ultimate.Hosts.Blacklist.txt
-          && pwd
+          cat hosts/* > Ultimate.Hosts.Blacklist.txt && \
+          pwd
   
