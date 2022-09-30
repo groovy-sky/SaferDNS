@@ -4,7 +4,7 @@ on:
   push
 
 env:
-  TMP_PATH: $GITHUB_BASE_REF/temp
+  TMP_PATH: "{{ $GITHUB_BASE_REF }}/temp"
 
 jobs:
   build-and-push-image:
