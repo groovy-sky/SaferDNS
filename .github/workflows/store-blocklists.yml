@@ -19,11 +19,11 @@ jobs:
       run: |
           sudo apt update && \
           sudo apt install subversion && \
-          mkdir $TMP_PATH
+          mkdir "$TMP_PATH"
 
     - name: Get Ultimate Hosts Blacklist
       run: |
-          cd $TMP_PATH && \
+          cd "$TMP_PATH" && \
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
           cat hosts/* > Ultimate.Hosts.Blacklist.txt
           && pwd
