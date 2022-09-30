@@ -4,7 +4,7 @@ on:
   push
 
 env:
-  TMP_PATH: "{{ $GITHUB_BASE_REF }}/temp"
+  TMP_PATH: "$GITHUB_BASE_REF/temp"
 
 jobs:
   build-and-push-image:
@@ -23,7 +23,8 @@ jobs:
 
     - name: Get Ultimate Hosts Blacklist
       run: |
-          cd && \
+          cd $TMP_PATH && \
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
           cat hosts/* > Ultimate.Hosts.Blacklist.txt
+          && pwd
   
