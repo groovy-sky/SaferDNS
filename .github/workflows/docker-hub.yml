@@ -1,7 +1,10 @@
 name: Build and Push to Docker Hub
 
 on:
-  push
+  push:
+    paths:
+      - 'Dockerfile'
+      - 'Corefile'
 
 env:
   REGISTRY_NAME: docker.io

@@ -13,3 +13,5 @@ Currently, SaferDNS is provided as [the Docker image](https://hub.docker.com/r/g
 
 ![](/img/docker_registry.png)
 
+
+https://git-lfs.github.com/
