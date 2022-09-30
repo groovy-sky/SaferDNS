@@ -3,6 +3,8 @@ name: Download and store Blocklists
 on:
   push
 
+env:
+  TMP_PATH: $GITHUB_BASE_REF/temp
 
 jobs:
   build-and-push-image:
@@ -13,10 +15,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: 
+    - name: Install required packages
       run: |
           sudo apt update && \
           sudo apt install subversion && \
+          mkdir $TMP_PATH
+
+    - name: Get Ultimate Hosts Blacklist
+      run: |
+          cd && \
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
-          ls && pwd
+          cat hosts/* > Ultimate.Hosts.Blacklist.txt
   
