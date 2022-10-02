@@ -22,7 +22,7 @@ jobs:
           sudo apt update && \
           sudo apt install subversion && \
           mkdir "$TMP_DIR" && \
-          mdkir -p $GITHUB_WORKSPACE/blocklists/hosts
+          mkdir -p $GITHUB_WORKSPACE/blocklists/hosts
 
     - name: Get Ultimate Hosts Blacklist
       continue-on-error: true
