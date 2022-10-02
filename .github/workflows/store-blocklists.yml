@@ -28,7 +28,7 @@ jobs:
       run: |
           cd "$TMP_DIR" && \
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
-          cat hosts/* > ../blocklists/hosts/Ultimate.Hosts.Blacklist.txt
+          cat hosts/* > $GITHUB_WORKSPACE/blocklists/hosts/Ultimate.Hosts.Blacklist.txt
   
     - name: Cleanup
       run: |
