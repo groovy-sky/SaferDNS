@@ -15,3 +15,9 @@ Currently, SaferDNS is provided as [the Docker image](https://hub.docker.com/r/g
 
 
 https://git-lfs.github.com/
+
+https://marcofranssen.nl/build-a-go-webserver-on-http-2-using-letsencrypt
+
+https://superuser.com/questions/1532975/how-to-query-for-dns-over-https-dns-over-tls-using-command-line
+
+https://github.com/ameshkov/dnslookup

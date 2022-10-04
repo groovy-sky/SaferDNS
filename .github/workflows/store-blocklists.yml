@@ -1,7 +1,8 @@
 name: Download and store Blocklists
 
 on:
-  push
+  schedule:
+    - cron: '0 3 */7 * *'
 
 env:
   TMP_DIR: temp
