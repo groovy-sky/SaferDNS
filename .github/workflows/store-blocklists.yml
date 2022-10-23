@@ -32,6 +32,13 @@ jobs:
           svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
           cat hosts/* > $GITHUB_WORKSPACE/blocklists/hosts/Ultimate.Hosts.Blacklist.txt
   
+    - name: Get Ultimate Domains Blacklist
+      continue-on-error: true
+      run: |
+          cd "$TMP_DIR" && \
+          svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/domains && \
+          cat hosts/* > $GITHUB_WORKSPACE/blocklists/domains/Ultimate.Hosts.Blacklist.txt  
+  
     - name: Cleanup
       run: |
           rm -rf "$TMP_DIR"
