@@ -21,3 +21,9 @@ https://marcofranssen.nl/build-a-go-webserver-on-http-2-using-letsencrypt
 https://superuser.com/questions/1532975/how-to-query-for-dns-over-https-dns-over-tls-using-command-line
 
 https://github.com/ameshkov/dnslookup
+
+https://github.com/coredns/learning-coredns
+
+https://coredns.io/2017/03/01/how-to-add-plugins-to-coredns/
+
+https://coredns.io/2017/07/25/compile-time-enabling-or-disabling-plugins/
