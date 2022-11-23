@@ -1,7 +1,8 @@
 name: Download and store Top lists
 
 on:
-  push
+  schedule:
+    - cron: '0 1 */7 * *'
 
 env:
   TMP_DIR: temp
