@@ -1,8 +1,7 @@
-name: Download and store Blocklists
+name: Download and store Top lists
 
 on:
-  schedule:
-    - cron: '0 3 */7 * *'
+  push
 
 env:
   TMP_DIR: temp
@@ -21,22 +20,16 @@ jobs:
     - name: Install required packages
       run: |
           sudo apt update && \
-          sudo apt install subversion && \
           mkdir "$TMP_DIR"
 
-    - name: Get Ultimate Hosts Blacklist
+    - name: Get Umbrella Popularity List
       continue-on-error: true
       run: |
+          yesterday=$(date +%Y-%m-%d -d "yesterday") && \
           cd "$TMP_DIR" && \
-          svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/hosts && \
-          cat hosts/* > $GITHUB_WORKSPACE/blocklists/hosts/Ultimate.Hosts.Blacklist.txt
-  
-    - name: Get Ultimate Domains Blacklist
-      continue-on-error: true
-      run: |
-          cd "$TMP_DIR" && \
-          svn checkout https://github.com/Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist/trunk/domains && \
-          cat hosts/* > $GITHUB_WORKSPACE/blocklists/domains/Ultimate.Hosts.Blacklist.txt  
+          wget http://s3-us-west-1.amazonaws.com/umbrella-static/top-1m-$yesterday.csv.zip && \
+          wget top-1m-$yesterday.csv.zip && \
+          mv top-1m.csv $GITHUB_WORKSPACE/toplists/domains/
   
     - name: Cleanup
       run: |
