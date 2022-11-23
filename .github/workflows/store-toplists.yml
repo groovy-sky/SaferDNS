@@ -29,7 +29,11 @@ jobs:
           cd "$TMP_DIR" && \
           wget http://s3-us-west-1.amazonaws.com/umbrella-static/top-1m-$yesterday.csv.zip && \
           unzip top-1m-$yesterday.csv.zip && \
-          mv top-1m.csv $GITHUB_WORKSPACE/toplists/domains/
+          mv top-1m.csv $GITHUB_WORKSPACE/toplists/domains/ && \
+          cd $GITHUB_WORKSPACE/toplists/domains/ && \
+          head -n1000 top-1m.csv >> top-1k.csv && \
+          head -n10000 top-1m.csv >> top-10k.csv && \
+          head -n100000 top-1m.csv >> top-100k.csv
   
     - name: Cleanup
       run: |
